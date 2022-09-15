@@ -1,7 +1,10 @@
+import { CheckSslComponent } from './check-ssl/check-ssl.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '', component: CheckSslComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
