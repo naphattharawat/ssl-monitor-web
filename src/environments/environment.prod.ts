@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  API_URL: '/ssl-api'
+  API_URL: '/api'
 };
