@@ -40,7 +40,7 @@ export class CheckSslComponent implements OnInit {
         } else{
           this.alertService.error('SSL is not Valid')
         }
-        this.getData();
+        await this.getData();
       } else {
         this.alertService.error( 'ไม่พบการติดตั้ง SSL certificate บน : กรุณาตรวจสอบและลองใหม่อีกครั้ง','SSL Not found')
       }
