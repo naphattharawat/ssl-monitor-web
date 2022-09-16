@@ -51,7 +51,7 @@ export class CheckSslComponent implements OnInit {
           }
           await this.getData();
         } else {
-          this.alertService.error(`ไม่พบการติดตั้ง SSL certificate บน : กรุณาตรวจสอบและลองใหม่อีกครั้ง (${query})`, 'SSL Not found')
+          this.alertService.error(`ไม่พบการติดตั้ง SSL certificate บน (${query}) กรุณาตรวจสอบและลองใหม่อีกครั้ง`, 'SSL Not found')
         }
       } else {
         this.alertService.error('ไม่พบ domain')
@@ -69,7 +69,7 @@ export class CheckSslComponent implements OnInit {
       const rs: any = await this.service.getData()
       if (rs.ok) {
         for (const i of rs.rows) {
-          i.days = moment(i.valid_to).diff(moment(i.valid_from), 'days');
+          i.days = moment(i.valid_to).diff(moment(), 'days');
           i.valid_from = moment(i.valid_from).format('DD-MM-YYYY')
           i.valid_to = moment(i.valid_to).format('DD-MM-YYYY')
           i.updated_date = moment(i.updated_date).format('DD-MM-YYYY HH:mm:ss')
@@ -97,7 +97,7 @@ export class CheckSslComponent implements OnInit {
         }
         this.getData();
       } else {
-        this.alertService.error('ไม่พบการติดตั้ง SSL certificate บน : กรุณาตรวจสอบและลองใหม่อีกครั้ง', 'SSL Not found')
+        this.alertService.error(`ไม่พบการติดตั้ง SSL certificate บน (${e.domain}) กรุณาตรวจสอบและลองใหม่อีกครั้ง`, 'SSL Not found')
       }
       this.isLoad = false;
     } catch (error) {
