@@ -10,9 +10,9 @@ import * as moment from 'moment';
 export class CheckSslComponent implements OnInit {
 
   dataSource: any = [];
-  query: any;
+  query: any = '';
   isLoad = false;
-  displayedColumns: string[] = ['valid','domain', 'valid_from', 'valid_to', 'updatetime', 'star'];
+  displayedColumns: string[] = ['valid', 'domain', 'valid_from', 'valid_to', 'updatetime', 'star'];
   constructor(
     private service: ServiceService,
     private alertService: AlertService
@@ -31,18 +31,30 @@ export class CheckSslComponent implements OnInit {
   async search() {
     try {
       this.isLoad = true;
-      this.alertService.showLoading();
-      const rs: any = await this.service.saveData(this.query);
-      this.alertService.hideLoading();
-      if (rs.ok) {
-        if(rs.data.valid){
-          this.alertService.success('SSL is Valid')
-        } else{
-          this.alertService.error('SSL is not Valid')
+      if (this.query.length > 1) {
+
+
+        this.alertService.showLoading();
+        let query = '';
+        if (this.query.substring(this.query.length - 11, this.query.length) == '.moph.go.th') {
+          query = this.query;
+        } else {
+          query = `${this.query}.moph.go.th`;
         }
-        await this.getData();
+        const rs: any = await this.service.saveData(query);
+        this.alertService.hideLoading();
+        if (rs.ok) {
+          if (rs.data.valid) {
+            this.alertService.success('SSL is Valid', query, 3000)
+          } else {
+            this.alertService.error('SSL is not Valid', query)
+          }
+          await this.getData();
+        } else {
+          this.alertService.error(`ไม่พบการติดตั้ง SSL certificate บน : กรุณาตรวจสอบและลองใหม่อีกครั้ง (${query})`, 'SSL Not found')
+        }
       } else {
-        this.alertService.error( 'ไม่พบการติดตั้ง SSL certificate บน : กรุณาตรวจสอบและลองใหม่อีกครั้ง','SSL Not found')
+        this.alertService.error('ไม่พบ domain')
       }
       this.isLoad = false;
     } catch (error) {
@@ -71,21 +83,21 @@ export class CheckSslComponent implements OnInit {
     }
   }
 
-  async refresh(e:any) {
+  async refresh(e: any) {
     try {
       this.isLoad = true;
       this.alertService.showLoading();
       const rs: any = await this.service.updateData(e.id, e.domain);
       this.alertService.hideLoading();
       if (rs.ok) {
-        if(rs.data.valid){
+        if (rs.data.valid) {
           this.alertService.success('SSL is Valid')
-        } else{
+        } else {
           this.alertService.error('SSL is not Valid')
         }
         this.getData();
       } else {
-        this.alertService.error( 'ไม่พบการติดตั้ง SSL certificate บน : กรุณาตรวจสอบและลองใหม่อีกครั้ง','SSL Not found')
+        this.alertService.error('ไม่พบการติดตั้ง SSL certificate บน : กรุณาตรวจสอบและลองใหม่อีกครั้ง', 'SSL Not found')
       }
       this.isLoad = false;
     } catch (error) {

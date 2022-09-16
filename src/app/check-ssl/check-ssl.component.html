@@ -364,11 +364,13 @@
 
   <!-- Terminal -->
   <div class="terminal">
-    <span style="color:white;font-size:1.5rem">URL &nbsp;</span>
+    <span style="color:white;font-size:1.5rem">Domain moph &nbsp;</span>
     <input type="text" name="query" [(ngModel)]="query" (keyup)="onKey($event)"
-      style="width: 75%;height: 2rem;font-size: 1.5rem;background: transparent; border: none;color:white;"
-      placeholder="moph.go.th">
-    <button mat-raised-button color="primary" style="font-size: 1rem;" [disabled]="isLoad" (click)="search()">Check</button>
+      style="width: 50%;height: 2rem;font-size: 1.5rem;background: transparent; border: none;color:white;"
+      placeholder="ict">
+    <button mat-raised-button color="primary" *ngIf="query.length <=1" style="font-size: 1rem;">.moph.go.th</button>
+    <button mat-raised-button color="primary" *ngIf="query.length >1" style="font-size: 1rem;"
+      [disabled]="isLoad || query.length <=1" (click)="search()">.moph.go.th</button>
 
     <!-- <input type="text" name="s" id="" style="background: transparent; border: none;color:white"> -->
     <!-- <pre >ng generate component xyz</pre> -->
@@ -383,12 +385,12 @@
 
     <!-- Valid Column -->
     <ng-container matColumnDef="valid">
-        <th mat-header-cell *matHeaderCellDef> Valid </th>
-        <td mat-cell *matCellDef="let element"> 
-            <mat-icon *ngIf="element.valid=='Y'" style="color:green">done</mat-icon>
-            <mat-icon *ngIf="element.valid=='N'" style="color:red">close</mat-icon>
-            </td>
-      </ng-container>
+      <th mat-header-cell *matHeaderCellDef> Valid </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-icon *ngIf="element.valid=='Y'" style="color:green">done</mat-icon>
+        <mat-icon *ngIf="element.valid=='N'" style="color:red">close</mat-icon>
+      </td>
+    </ng-container>
     <!-- Position Column -->
     <ng-container matColumnDef="domain">
       <th mat-header-cell *matHeaderCellDef> DOMAIN </th>

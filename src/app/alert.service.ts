@@ -34,12 +34,12 @@ export class AlertService {
   //   swal.fire(option);
 
   // }
-  success(title = 'ดำเนินการเสร็จเรียบร้อย', text = '') {
+  success(title = 'ดำเนินการเสร็จเรียบร้อย', text = '', timer = 2000) {
 
     const option: any = {
       title: title,
       text: text,
-      timer: 2000,
+      timer: timer,
       icon: 'success',
       confirmButtonText: 'ตกลง'
     };
